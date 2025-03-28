@@ -1,9 +1,7 @@
-// Описаний в документації
+// Імпорт бібліотек
 import flatpickr from "flatpickr";
-// Додатковий імпорт стилів
 import "flatpickr/dist/flatpickr.min.css";
 
-// Імпорт iziToast для сповіщень
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
@@ -15,15 +13,39 @@ const hoursEl = document.querySelector('[data-hours]');
 const minutesEl = document.querySelector('[data-minutes]');
 const secondsEl = document.querySelector('[data-seconds]');
 
-let countdown;
+let countdown = null;
 
+// Додаємо стилі для неактивної кнопки
+const disableButton = () => {
+  startButton.disabled = true;
+  startButton.classList.add('disabled');
+};
+
+const enableButton = () => {
+  startButton.disabled = false;
+  startButton.classList.remove('disabled');
+};
+
+// Ініціалізація flatpickr
 flatpickr(dateTimePicker, {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    console.log(selectedDates[0]);
+    const userTime = selectedDates[0]?.getTime();
+    const now = new Date().getTime();
+
+    if (!userTime || userTime <= now) {
+      disableButton();
+      iziToast.error({
+        title: 'Помилка',
+        message: 'Будь ласка, виберіть дату в майбутньому!',
+        position: 'topCenter'
+      });
+    } else {
+      enableButton();
+    }
   },
 });
 
@@ -60,12 +82,17 @@ function startCountdown(targetTime) {
     if (remainingTime <= 0) {
       clearInterval(countdown);
       updateTimerDisplay(0);
+
       iziToast.show({
         title: 'Час вийшов!',
         message: 'Відлік завершено.',
         position: 'topCenter',
         color: 'red'
       });
+
+      enableButton();
+      dateTimePicker.disabled = false;
+
       return;
     }
 
@@ -86,6 +113,10 @@ startButton.addEventListener('click', () => {
     return;
   }
 
+  // Деактивація елементів
+  disableButton();
+  dateTimePicker.disabled = true;
+
   startCountdown(userTime);
 
   iziToast.success({
@@ -95,4 +126,8 @@ startButton.addEventListener('click', () => {
   });
 });
 
+// Початкове оновлення таймера
 updateTimerDisplay(0);
+
+// Деактивація кнопки при завантаженні сторінки
+disableButton();
