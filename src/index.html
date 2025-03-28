@@ -1,23 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vanilla App Template</title>
-    <link rel="stylesheet" href="./css/styles.css" />
-  </head>
-  <body>
-    <load src="./partials/header.html" icon-path="img/sprite.svg#logo" />
 
-    <main>
-      <!-- Loads the specified .html file -->
-      <load src="./partials/vite-promo.html" />
-      <load src="./partials/badges.html" />
-    </main>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vanilla App Template</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
 
-    <load src="./partials/footer.html" />
+<body>
+  <main>
+    <ul class="link">
+      <li><a href="./1-timer.html">timer</a></li>
+      <li><a href="./2-snackbar.html">snackBar</a></li>
+    </ul>
+    <style>
+      main {
+        margin-top: 20%;
+        text-align: center;
+      }
 
-    <script type="module" src="./main.js"></script>
-  </body>
+      a {
+        font-size: 50px;
+      }
+
+      a:hover,
+      a:focus {
+        color: grey;
+        font-size: 51px;
+      }
+    </style>
+
+  </main>
+
+
+
+
+
+</body>
+
 </html>
